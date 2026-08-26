@@ -513,6 +513,7 @@ h2 em {
   width: 100%;
   aspect-ratio: 1 / 1.04;
   object-fit: cover;
+  object-position: center 68%;
 }
 
 .hero-image-wrap .hero-image {
@@ -1714,6 +1715,11 @@ h2 em {
   .hero-visual {
     width: min(100%, 520px);
     margin-inline: auto;
+  }
+
+  .hero-image-wrap .hero-image {
+    transform: scale(1.02);
+    transform-origin: center 70%;
   }
 
   .hero-bottom {
