@@ -1718,8 +1718,8 @@ h2 em {
   }
 
   .hero-image-wrap .hero-image {
-    transform: scale(1.02);
-    transform-origin: center 70%;
+    transform: scale(1.36);
+    transform-origin: center 100%;
   }
 
   .hero-bottom {
@@ -2023,7 +2023,8 @@ h2 em {
   }
 
   .hero-image-wrap .hero-image {
-    transform: scale(1.06);
+    transform: scale(1.36);
+    transform-origin: center 100%;
   }
 
   .hero-bottom {
