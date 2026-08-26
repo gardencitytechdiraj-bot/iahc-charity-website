@@ -55,8 +55,8 @@
   }
 
   const translations = {
-    en: { navWhy: 'Why education', navAbout: 'About us', navPrograms: 'Programs', navShop: 'Charity shop', navImpact: 'Our impact', navContact: 'Contact', navSupport: 'Support us ↗', heroEyebrow: 'IAHC Nepal · Ranipouwa, Pokhara', heroTitle: 'Hope begins<br><em>with education.</em>', heroLede: 'A small, community-based charity helping children stay in school, meet basic needs, and grow with dignity.', heroPrimary: 'Help keep a child in school ↗', heroSecondary: 'See how it works ↓', heroNote: 'Built from a second-hand shop, carried by local care.', whyTitle: 'A school place can<br><em>change the shape of a life.</em>', whyLede: 'In communities where a family may have to choose between food, rent, and a child’s school fees, staying in education is not guaranteed. IAHC comes alongside families with practical support, so children can learn without the fear of being sent home.' },
-    ne: { navWhy: 'शिक्षा किन?', navAbout: 'हाम्रो बारेमा', navPrograms: 'कार्यक्रमहरू', navShop: 'च्यारिटी पसल', navImpact: 'हाम्रो प्रभाव', navContact: 'सम्पर्क', navSupport: 'सहयोग गर्नुहोस् ↗', heroEyebrow: 'IAHC नेपाल · रानीपौवा, पोखरा', heroTitle: 'आशा सुरु हुन्छ<br><em>शिक्षाबाट।</em>', heroLede: 'बालबालिकालाई विद्यालयमा रहन, आधारभूत आवश्यकता पूरा गर्न र सम्मानका साथ अघि बढ्न सहयोग गर्ने समुदायमा आधारित सानो संस्था।', heroPrimary: 'बालबालिकाको शिक्षामा सहयोग गर्नुहोस् ↗', heroSecondary: 'कसरी काम गर्छ हेर्नुहोस् ↓', heroNote: 'सेकेन्ड-ह्यान्ड पसलबाट सुरु भएको, स्थानीय मायाले अघि बढेको।', whyTitle: 'विद्यालयको एउटा ठाउँले<br><em>जीवनको बाटो बदल्न सक्छ।</em>', whyLede: 'खाना, घरभाडा र विद्यालय शुल्कमध्ये रोज्नुपर्ने परिवारका लागि शिक्षामा रहनु निश्चित हुँदैन। IAHC परिवारसँगै उभिएर व्यावहारिक सहयोग गर्छ, ताकि बालबालिकाले विद्यालयबाट घर पठाइने डरबिना सिक्न सकून्।' }
+    en: { navWhy: 'Why education', navAbout: 'About us', navPrograms: 'Programs', navShop: 'Charity shop', navImpact: 'Our impact', navContact: 'Contact', navSupport: 'Support us', heroEyebrow: 'IAHC Nepal · Ranipouwa, Pokhara', heroTitle: 'Hope begins<br><em>with education.</em>', heroLede: 'A small, community-based charity helping children stay in school, meet basic needs, and grow with dignity.', heroPrimary: 'Help keep a child in school', heroSecondary: 'See how it works', heroNote: 'Built from a second-hand shop, carried by local care.', whyTitle: 'A school place can<br><em>change the shape of a life.</em>', whyLede: 'In communities where a family may have to choose between food, rent, and a child’s school fees, staying in education is not guaranteed. IAHC comes alongside families with practical support, so children can learn without the fear of being sent home.' },
+    ne: { navWhy: 'शिक्षा किन?', navAbout: 'हाम्रो बारेमा', navPrograms: 'कार्यक्रमहरू', navShop: 'च्यारिटी पसल', navImpact: 'हाम्रो प्रभाव', navContact: 'सम्पर्क', navSupport: 'सहयोग गर्नुहोस्', heroEyebrow: 'IAHC नेपाल · रानीपौवा, पोखरा', heroTitle: 'आशा सुरु हुन्छ<br><em>शिक्षाबाट।</em>', heroLede: 'बालबालिकालाई विद्यालयमा रहन, आधारभूत आवश्यकता पूरा गर्न र सम्मानका साथ अघि बढ्न सहयोग गर्ने समुदायमा आधारित सानो संस्था।', heroPrimary: 'बालबालिकाको शिक्षामा सहयोग गर्नुहोस्', heroSecondary: 'कसरी काम गर्छ हेर्नुहोस्', heroNote: 'सेकेन्ड-ह्यान्ड पसलबाट सुरु भएको, स्थानीय मायाले अघि बढेको।', whyTitle: 'विद्यालयको एउटा ठाउँले<br><em>जीवनको बाटो बदल्न सक्छ।</em>', whyLede: 'खाना, घरभाडा र विद्यालय शुल्कमध्ये रोज्नुपर्ने परिवारका लागि शिक्षामा रहनु निश्चित हुँदैन। IAHC परिवारसँगै उभिएर व्यावहारिक सहयोग गर्छ, ताकि बालबालिकाले विद्यालयबाट घर पठाइने डरबिना सिक्न सकून्।' }
   };
   const languageToggle = $('[data-language-toggle]');
   let language = localStorage.getItem('iahc-language') || 'en';
@@ -112,25 +112,69 @@
     if (error) error.textContent = message;
     return !message;
   };
+
+  const submitEmailForm = async (payload) => {
+    const response = await fetch('/api/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || 'Unable to send your information right now.');
+    return data;
+  };
+
   const contactForm = $('[data-contact-form]');
-  contactForm?.addEventListener('submit', (event) => {
+  contactForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const valid = $$('input[required], textarea[required]', contactForm).every(validateField);
+    const valid = $$('input[required], textarea[required]', contactForm).map(validateField).every(Boolean);
     const status = $('[data-contact-status]');
     if (!valid) { status.textContent = 'Please check the highlighted fields.'; return; }
-    status.textContent = 'Thanks — your message is ready to be connected to the IAHC inbox.';
-    contactForm.reset();
+    const button = $('button[type="submit"]', contactForm);
+    const formData = new FormData(contactForm);
+    button.disabled = true;
+    contactForm.setAttribute('aria-busy', 'true');
+    status.textContent = 'Sending your message…';
+    try {
+      await submitEmailForm({
+        kind: 'contact',
+        name: String(formData.get('name') || '').trim(),
+        email: String(formData.get('email') || '').trim(),
+        message: String(formData.get('message') || '').trim(),
+        website: String(formData.get('website') || '')
+      });
+      status.textContent = 'Thank you — your message has been sent to IAHC.';
+      contactForm.reset();
+    } catch (error) {
+      status.textContent = error.message || 'Sorry, your message could not be sent. Please email or call IAHC directly.';
+    } finally {
+      button.disabled = false;
+      contactForm.removeAttribute('aria-busy');
+    }
   });
   $$('[data-contact-form] input, [data-contact-form] textarea').forEach((field) => field.addEventListener('blur', () => validateField(field)));
 
   const newsletterForm = $('[data-newsletter-form]');
-  newsletterForm?.addEventListener('submit', (event) => {
+  newsletterForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const email = $('input', newsletterForm);
+    const email = $('input[type="email"]', newsletterForm);
     const status = $('[data-newsletter-status]');
     if (!email.value.trim() || !/^\S+@\S+\.\S+$/.test(email.value.trim())) { status.textContent = 'Please enter a valid email address.'; email.focus(); return; }
-    status.textContent = 'Thanks — you’re on the list for future updates.';
-    newsletterForm.reset();
+    const button = $('button[type="submit"]', newsletterForm);
+    const website = $('input[name="website"]', newsletterForm);
+    button.disabled = true;
+    newsletterForm.setAttribute('aria-busy', 'true');
+    status.textContent = 'Sending…';
+    try {
+      await submitEmailForm({ kind: 'newsletter', email: email.value.trim(), website: website?.value || '' });
+      status.textContent = 'Thank you — your email address has been sent to IAHC.';
+      newsletterForm.reset();
+    } catch (error) {
+      status.textContent = error.message || 'Sorry, your email could not be sent. Please try again later.';
+    } finally {
+      button.disabled = false;
+      newsletterForm.removeAttribute('aria-busy');
+    }
   });
 
   const cookieNotice = $('[data-cookie-notice]');
