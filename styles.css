@@ -1637,7 +1637,7 @@ h2 em {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   :root {
     --container: min(100% - 36px, 640px);
     --header-height: 68px;
