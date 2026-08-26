@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bio.site/IAlsoHelpCharity/sitemap.xml
+Sitemap: https://www.ialsohelpcharity.org/sitemap.xml
