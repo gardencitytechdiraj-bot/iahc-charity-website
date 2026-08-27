@@ -931,6 +931,26 @@ h2 em {
   padding: clamp(1.5rem, 4vw, 3.25rem);
   background: rgba(19, 40, 59, .3);
   border: 1px solid rgba(251, 250, 245, .17);
+  
+/* Keep supplied image dimensions from creating elongated desktop sections. */
+.person-photo img,
+.program-photo img,
+.shop-image img,
+.impact-image img,
+.support-image img {
+  height: auto;
+}
+
+/* Keep honeypot fields from widening the responsive page. */
+.sr-only input,
+.footer-signup input.sr-only {
+  width: 1px;
+  min-width: 1px;
+  min-height: 1px;
+  padding: 0;
+  border: 0;
+}
+
 }
 
 .goal-numbers {
@@ -1861,4 +1881,24 @@ h2 em {
     opacity: 1;
     transform: none;
   }
+}
+
+
+/* Final responsive overrides for balanced image proportions. */
+.person-photo img,
+.program-photo img,
+.shop-image img,
+.impact-image img,
+.support-image img {
+  height: auto;
+}
+
+/* Keep honeypot fields from widening the responsive page. */
+.sr-only input,
+.footer-signup input.sr-only {
+  width: 1px;
+  min-width: 1px;
+  min-height: 1px;
+  padding: 0;
+  border: 0;
 }
