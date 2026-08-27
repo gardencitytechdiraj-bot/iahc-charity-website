@@ -1902,3 +1902,12 @@ h2 em {
   padding: 0;
   border: 0;
 }
+
+
+/* Prevent fractional decorative offsets from creating tablet side scroll. */
+@media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
