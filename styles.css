@@ -142,6 +142,15 @@ h2 em {
   border: 0;
 }
 
+.sr-only input,
+.footer-signup input.sr-only {
+  width: 1px;
+  min-width: 1px;
+  min-height: 1px;
+  padding: 0;
+  border: 0;
+}
+
 [hidden] {
   display: none !important;
 }
@@ -718,6 +727,7 @@ h2 em {
 
 .person-photo img {
   width: 100%;
+  height: auto;
   aspect-ratio: 1.2 / 1;
   object-fit: cover;
 }
@@ -831,6 +841,7 @@ h2 em {
 
 .program-photo img {
   width: 100%;
+  height: auto;
   aspect-ratio: 1.8 / 1;
   object-fit: cover;
   border-radius: var(--radius);
@@ -869,6 +880,7 @@ h2 em {
 
 .shop-image img {
   width: 100%;
+  height: auto;
   aspect-ratio: 1.1 / 1;
   object-fit: cover;
   border-radius: var(--radius);
@@ -931,26 +943,6 @@ h2 em {
   padding: clamp(1.5rem, 4vw, 3.25rem);
   background: rgba(19, 40, 59, .3);
   border: 1px solid rgba(251, 250, 245, .17);
-  
-/* Keep supplied image dimensions from creating elongated desktop sections. */
-.person-photo img,
-.program-photo img,
-.shop-image img,
-.impact-image img,
-.support-image img {
-  height: auto;
-}
-
-/* Keep honeypot fields from widening the responsive page. */
-.sr-only input,
-.footer-signup input.sr-only {
-  width: 1px;
-  min-width: 1px;
-  min-height: 1px;
-  padding: 0;
-  border: 0;
-}
-
 }
 
 .goal-numbers {
@@ -1008,6 +1000,7 @@ h2 em {
 
 .impact-image img {
   width: 100%;
+  height: auto;
   aspect-ratio: 1.75 / 1;
   object-fit: cover;
   border-radius: var(--radius);
@@ -1050,6 +1043,7 @@ h2 em {
 
 .support-image img {
   width: 100%;
+  height: auto;
   aspect-ratio: 1.45 / 1;
   object-fit: cover;
   border-radius: var(--radius);
@@ -1455,6 +1449,91 @@ h2 em {
   opacity: 0;
   pointer-events: none;
   transform: translateY(20px);
+}
+
+/* Flood-relief announcement modal */
+body.relief-modal-open {
+  overflow: hidden;
+}
+
+.relief-modal {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 28px);
+  background: rgba(7, 24, 40, .72);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 240ms cubic-bezier(.165, .84, .44, 1), visibility 0s linear 240ms;
+}
+
+.relief-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.relief-dialog {
+  position: relative;
+  width: min(900px, 100%);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  opacity: 0;
+  transform: translateY(8px) scale(.95);
+  transition: opacity 240ms cubic-bezier(.165, .84, .44, 1), transform 240ms cubic-bezier(.165, .84, .44, 1);
+}
+
+.relief-modal.is-open .relief-dialog {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.relief-dialog img {
+  width: 100%;
+  height: auto;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  object-fit: contain;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .3);
+}
+
+.relief-close {
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  padding: 0 0 4px;
+  color: #111;
+  background: rgba(255, 255, 255, .94);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 5px 18px rgba(19, 40, 59, .18);
+  font-size: 40px;
+  line-height: 1;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+@media (hover: hover) {
+  .relief-close:hover {
+    background: #fff;
+    transform: scale(1.04);
+  }
+}
+
+.relief-close:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
 }
 
 .cookie-notice p {
@@ -1880,34 +1959,5 @@ h2 em {
   .reveal.is-visible {
     opacity: 1;
     transform: none;
-  }
-}
-
-
-/* Final responsive overrides for balanced image proportions. */
-.person-photo img,
-.program-photo img,
-.shop-image img,
-.impact-image img,
-.support-image img {
-  height: auto;
-}
-
-/* Keep honeypot fields from widening the responsive page. */
-.sr-only input,
-.footer-signup input.sr-only {
-  width: 1px;
-  min-width: 1px;
-  min-height: 1px;
-  padding: 0;
-  border: 0;
-}
-
-
-/* Prevent fractional decorative offsets from creating tablet side scroll. */
-@media (max-width: 900px) {
-  html,
-  body {
-    overflow-x: hidden;
   }
 }

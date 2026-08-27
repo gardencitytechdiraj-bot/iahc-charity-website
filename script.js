@@ -177,6 +177,42 @@
     }
   });
 
+  const reliefModal = $('[data-relief-modal]');
+  const reliefClose = $('[data-relief-close]');
+  let reliefPreviousFocus = null;
+  let reliefIsOpen = false;
+  const closeReliefModal = () => {
+    if (!reliefModal || !reliefIsOpen) return;
+    reliefIsOpen = false;
+    reliefModal.classList.remove('is-open');
+    reliefModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('relief-modal-open');
+    window.setTimeout(() => { if (!reliefIsOpen) reliefModal.hidden = true; }, 240);
+    reliefPreviousFocus?.focus();
+  };
+  const openReliefModal = () => {
+    if (!reliefModal || reliefIsOpen) return;
+    reliefPreviousFocus = document.activeElement;
+    reliefIsOpen = true;
+    reliefModal.hidden = false;
+    reliefModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('relief-modal-open');
+    requestAnimationFrame(() => {
+      reliefModal.classList.add('is-open');
+      reliefClose?.focus();
+    });
+  };
+  reliefClose?.addEventListener('click', closeReliefModal);
+  reliefModal?.addEventListener('click', (event) => { if (event.target === reliefModal) closeReliefModal(); });
+  document.addEventListener('keydown', (event) => {
+    if (!reliefIsOpen) return;
+    if (event.key === 'Escape') { event.preventDefault(); closeReliefModal(); return; }
+    if (event.key !== 'Tab' || !reliefClose) return;
+    event.preventDefault();
+    reliefClose.focus();
+  });
+  window.setTimeout(openReliefModal, 120);
+
   const cookieNotice = $('[data-cookie-notice]');
   if (localStorage.getItem('iahc-cookie-dismissed') === 'true') cookieNotice?.classList.add('is-hidden');
   $('[data-cookie-dismiss]')?.addEventListener('click', () => { localStorage.setItem('iahc-cookie-dismissed', 'true'); cookieNotice?.classList.add('is-hidden'); });
